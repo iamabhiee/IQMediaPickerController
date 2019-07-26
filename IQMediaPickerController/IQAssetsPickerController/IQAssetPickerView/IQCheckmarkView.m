@@ -52,7 +52,7 @@
     CGContextFillEllipseInRect(context, self.bounds);
     
     // Body
-    CGContextSetRGBFillColor(context, 20.0/255.0, 111.0/255.0, 223.0/255.0, 1.0);
+    CGContextSetRGBFillColor(context, 247.0/255.0, 148.0/255.0, 30.0/255.0, 1.0);; //MAHIPAL-
     CGContextFillEllipseInRect(context, CGRectInset(self.bounds, 1.0, 1.0));
     
     // Checkmark

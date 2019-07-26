@@ -111,8 +111,13 @@ typedef NS_ENUM(NSUInteger, IQVideoSettingsType) {
         
         //Camera
         {
+            NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"IQMediaPickerController" ofType:@"bundle"];
+            
+            NSString *IQ_camera_switch = @"/var/containers/Bundle/Application/9AB99E7F-8FF3-4902-BC54-9C6EBF03891C/NINE.app/Frameworks/IQMediaPickerController.framework/IQMediaPickerController.bundle";
+            UIImage *IQ_camera_switch_image = [[UIImage alloc] initWithContentsOfFile:IQ_camera_switch];
             _buttonCamera = [UIButton buttonWithType:UIButtonTypeSystem];
-            [_buttonCamera setImage:[UIImage imageNamed:@"IQ_camera_switch"] forState:UIControlStateNormal];
+           // [_buttonCamera setImage:IQ_camera_switch_image forState:UIControlStateNormal];
+            [_buttonCamera setTitle:@"📷" forState:UIControlStateNormal];
             [_buttonCamera addTarget:self action:@selector(cameraAction:) forControlEvents:UIControlEventTouchUpInside];
             _buttonCamera.tintColor = [UIColor whiteColor];
             _buttonCamera.frame = CGRectMake(CGRectGetMaxX(self.bounds)-40-5, 0, 40, 40);
@@ -304,24 +309,36 @@ typedef NS_ENUM(NSUInteger, IQVideoSettingsType) {
         _labelFileSize.alpha = 0;
     }
     
+    NSString *bundlePath = @"/var/containers/Bundle/Application/9AB99E7F-8FF3-4902-BC54-9C6EBF03891C/NINE.app/Frameworks/IQMediaPickerController.framework/IQMediaPickerController.bundle";
+    NSString *IQ_camera_flash = [[NSBundle bundleWithPath:bundlePath] pathForResource:@"IQ_camera_flash" ofType:@"png"];
+    NSString *IQ_camera_flash_off = [[NSBundle bundleWithPath:bundlePath] pathForResource:@"IQ_camera_flash_off" ofType:@"png"];
+    UIImage *IQ_camera_flash_image = [[UIImage alloc] initWithContentsOfFile:IQ_camera_flash];
+    UIImage *IQ_camera_flash_off_image = [[UIImage alloc] initWithContentsOfFile:IQ_camera_flash_off];
+    
     switch (self.torchMode) {
+            
+            
         case AVCaptureTorchModeOn:
         {
-            [self.buttonFlash setImage:[UIImage imageNamed:@"IQ_camera_flash"] forState:UIControlStateNormal];
+            [self.buttonFlash setTitle:@"⚡" forState:UIControlStateNormal];
+           // [self.buttonFlash setImage:IQ_camera_flash_image forState:UIControlStateNormal];
             self.buttonFlash.tintColor = self.buttonFlashOn.tintColor = [UIColor yellowColor];
             self.buttonFlashAuto.tintColor = self.buttonFlashOff.tintColor = [UIColor whiteColor];
         }
             break;
         case AVCaptureTorchModeOff:
         {
-            [self.buttonFlash setImage:[UIImage imageNamed:@"IQ_camera_flash_off"] forState:UIControlStateNormal];
+            
+            [self.buttonFlash setTitle:@"⚡" forState:UIControlStateNormal];
+//            [self.buttonFlash setImage:IQ_camera_flash_off_image forState:UIControlStateNormal];
             self.buttonFlashOff.tintColor = [UIColor yellowColor];
             self.buttonFlash.tintColor = self.buttonFlashAuto.tintColor = self.buttonFlashOn.tintColor = [UIColor whiteColor];
         }
             break;
         case AVCaptureTorchModeAuto:
         {
-            [self.buttonFlash setImage:[UIImage imageNamed:@"IQ_camera_flash"] forState:UIControlStateNormal];
+             [self.buttonFlash setTitle:@"⚡" forState:UIControlStateNormal];
+            //[self.buttonFlash setImage:IQ_camera_flash_image forState:UIControlStateNormal];
             self.buttonFlashAuto.tintColor = [UIColor yellowColor];
             self.buttonFlash.tintColor = self.buttonFlashOn.tintColor = self.buttonFlashOff.tintColor = [UIColor whiteColor];
         }

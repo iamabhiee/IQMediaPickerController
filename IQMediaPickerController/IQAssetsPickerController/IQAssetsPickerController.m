@@ -51,7 +51,13 @@
     _selectedItems = [[NSMutableArray alloc] init];
 
     [self.navigationItem setTitle:@"Albums"];
+    /*******MAHIPAL- ******/
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];//MAHIPAL-11jan
+    [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed: 247.0/255.0 green:148.0/255.0 blue:30.0/255.0 alpha:1.0]]; //MAHIPAL-
     
+     /*********************/
     self.doneBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneAction:)];
     
     self.cancelBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction:)];
@@ -186,8 +192,10 @@
                 }
                 
                 UIImage *image = [UIImage imageWithCGImage:imageRef scale:result.defaultRepresentation.scale orientation:orienatation];
-                
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:image,IQMediaImage, nil];
+              NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+                [dict setValue:image forKey:IQMediaImage];
+                 [dict setValue:[result defaultRepresentation].filename forKey:IQMediaFileName]; //MAHIPAL-
+//                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:image,IQMediaImage, nil];
                 
                 [selectedImages addObject:dict];
             }
@@ -213,7 +221,8 @@
         [self.delegate assetsPickerController:self didFinishMediaWithInfo:dict];
     }
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self dismissViewControllerAnimated:YES completion:nil]; MAHIPAL-
+    
 }
 
 - (void)doneAction:(UIBarButtonItem *)sender
@@ -325,11 +334,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    IQAlbumAssetsViewController *assetsVC = [[IQAlbumAssetsViewController alloc] initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
-    assetsVC.mediaTypes = self.mediaTypes;
-    assetsVC.assetsGroup = [_assetGroups objectAtIndex:indexPath.row];
-    assetsVC.assetController = self;
-    [self.navigationController pushViewController:assetsVC animated:YES];
+    _assetsVC = [[IQAlbumAssetsViewController alloc] initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+    _assetsVC.mediaTypes = self.mediaTypes;
+    _assetsVC.assetsGroup = [_assetGroups objectAtIndex:indexPath.row];
+    _assetsVC.assetController = self;
+    [self.navigationController pushViewController:_assetsVC animated:YES];
 }
 
 @end

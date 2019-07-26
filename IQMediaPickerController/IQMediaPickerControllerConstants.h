@@ -28,6 +28,7 @@ extern NSString *const IQMediaURL;          // an NSURL
 extern NSString *const IQMediaAssetURL;          // an NSURL
 extern NSString *const IQMediaItem;          // an MPMediaItem
 extern NSString *const IQMediaImage;        // a UIImage
+extern NSString *const IQMediaFileName;        // a File name //MAHIPAL
 
 extern NSString *const IQMediaType;      // an NSString (UTI, i.e. kUTTypeImage)
 

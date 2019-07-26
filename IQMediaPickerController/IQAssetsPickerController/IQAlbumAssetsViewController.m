@@ -78,9 +78,10 @@
     _flowLayout.itemSize =  CGSizeMake(size, size);
 
     [self.collectionView registerClass:[IQAssetsCell class] forCellWithReuseIdentifier:@"cell"];
+   
+ 
 
-    self.title = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
-    
+    self.title = @"Select Pictures"; //[self.assetsGroup valueForProperty:ALAssetsGroupPropertyName]; //
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressGestureRecognizer:)];
     [self.collectionView addGestureRecognizer:longPressGesture];
     longPressGesture.delegate = self;
@@ -136,7 +137,7 @@
         
         if (indexPath)
         {
-            [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.item] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
+             [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.item] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
              {
                  if (result)
                  {
@@ -174,7 +175,7 @@
 }
 
 #pragma mark - UICollectionViewDataSource methods
-
+ 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section;
 {
     return self.assetsGroup.numberOfAssets;
@@ -184,8 +185,7 @@
 {
     IQAssetsCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     cell.checkmarkView.alpha = 0.0;
-    
-    [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.item] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
+     [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.item] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
      {
          if (result)
          {

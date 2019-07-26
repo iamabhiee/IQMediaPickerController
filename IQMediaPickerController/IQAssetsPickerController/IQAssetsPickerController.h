@@ -37,6 +37,7 @@
 @property NSUInteger maximumItemCount;
 @property(nonatomic, nullable) NSArray <NSNumber *> * mediaTypes;
 @property(nullable) NSMutableArray<ALAsset*> *selectedItems;
+@property(nullable) IQAlbumAssetsViewController *assetsVC;//MAHIPAL-
 
 //For internal use only
 -(void)sendFinalSelectedAssets;

@@ -975,7 +975,7 @@
                 
                 UIImage *image = [[UIImage alloc] initWithData:imageData];
                 
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:outputImageURL,IQMediaURL,image,IQMediaImage,IQMediaTypeImage,IQMediaType, nil];
+                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:outputImageURL,IQMediaURL,image,IQMediaImage,IQMediaTypeImage,IQMediaType, nil]; //MAHIPAL-
 
                 if ([self.delegate respondsToSelector:@selector(captureSession:didFinishMediaWithInfo:error:)])
                 {

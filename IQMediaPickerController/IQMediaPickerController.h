@@ -23,7 +23,7 @@
 
 @import Foundation;
 @import UIKit;
-
+@import AssetsLibrary;
 //! Project version number for IQMediaPickerController.
 FOUNDATION_EXPORT double IQMediaPickerControllerVersionNumber;
 
@@ -50,7 +50,8 @@ FOUNDATION_EXPORT const unsigned char IQMediaPickerControllerVersionString[];
 @property(nonatomic, weak, nullable) id<IQMediaPickerControllerDelegate,UINavigationControllerDelegate> delegate;
 @property BOOL allowsPickingMultipleItems; // default is NO.
 @property NSUInteger maximumItemCount;
-
+@property(nullable) NSMutableArray<ALAsset*> *selectedItems; //MAHIPAL-16
+@property int indexAt;//MAHIPAL-16
 @property(nonatomic) IQMediaPickerControllerSourceType sourceType;
 @property(nonatomic, nullable) NSArray <NSNumber * > * mediaTypes;    //You can combine multiple media types to be picked or captured. If you are capturing the media then any combinations are accepted but if you would like to pick media from library then only photo + video combinations are accepted. Combining audio picking with photo and or video isn't supported and no future plans to do it.
 @property(nonatomic) IQMediaPickerControllerCameraDevice captureDevice;
@@ -69,6 +70,7 @@ FOUNDATION_EXPORT const unsigned char IQMediaPickerControllerVersionString[];
 - (BOOL)startAudioCapture;
 - (void)stopAudioCapture;
 
+-(void)updateOnAddMore; //MAHIPAL-16
 @end
 
 @protocol IQMediaPickerControllerDelegate <NSObject>

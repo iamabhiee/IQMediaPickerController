@@ -24,14 +24,16 @@
 
 @import UIKit;
 #import "IQMediaPickerControllerConstants.h"
-
+ 
 @protocol IQAssetsPickerControllerDelegate;
 @class IQAssetsPickerController;
 
 @class ALAssetsGroup;
 
 @interface IQAlbumAssetsViewController : UICollectionViewController
-
+  
+ 
+ 
 @property (nullable, weak) ALAssetsGroup *assetsGroup;
 @property (nullable, weak) IQAssetsPickerController *assetController;
 @property(nonatomic, nullable) NSArray <NSNumber *> * mediaTypes;

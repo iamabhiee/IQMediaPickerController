@@ -32,6 +32,8 @@
 @interface IQMediaPickerController ()<IQMediaCaptureControllerDelegate,IQAssetsPickerControllerDelegate,IQAudioPickerControllerDelegate,UITabBarControllerDelegate>
 
 @property BOOL isFirstTimeAppearing;
+@property(nullable) IQAssetsPickerController *controllerAsset;//MAHIPAL-16
+@property(nullable) IQMediaCaptureController *controllerCapture;//MAHIPAL-16
 
 @end
 
@@ -60,6 +62,22 @@
 {
     _mediaTypes = [[NSMutableOrderedSet orderedSetWithArray:mediaTypes] array];
 }
+//MAHIPAL-16 new function added
+-(void)updateOnAddMore{
+  
+  switch (self.sourceType) {
+        case IQMediaPickerControllerSourceTypeLibrary:
+            _controllerAsset.selectedItems = self.selectedItems;
+            [_controllerAsset.assetsVC viewDidLoad];
+            [_controllerAsset.assetsVC viewWillAppear:false];
+            [_controllerAsset.assetsVC.collectionView reloadData];
+          
+            break;
+        case IQMediaPickerControllerSourceTypeCameraMicrophone:
+            [_controllerCapture deleteAction: _indexAt];
+          break;
+    }
+ }
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -68,7 +86,7 @@
     if (self.isFirstTimeAppearing)
     {
         self.isFirstTimeAppearing = NO;
-
+        
         if (self.mediaTypes.count == 0)
         {
             self.mediaTypes = @[@(IQMediaPickerControllerMediaTypePhoto)];
@@ -86,6 +104,7 @@
                     controller.maximumItemCount = self.maximumItemCount;
                     controller.delegate = self;
                     controller.mediaTypes = self.mediaTypes;
+                    _controllerAsset = controller; //MAHIPAL
                     self.viewControllers = @[controller];
                 }
                 else if ([self.mediaTypes containsObject:@(IQMediaPickerControllerMediaTypeAudio)])
@@ -106,10 +125,11 @@
                 controller.delegate = self;
                 controller.mediaTypes = self.mediaTypes;
                 controller.captureDevice = self.captureDevice;
-//                controller.flashMode = self.flashMode;
+                //                controller.flashMode = self.flashMode;
                 controller.videoMaximumDuration = self.videoMaximumDuration;
                 controller.audioMaximumDuration = self.audioMaximumDuration;
                 controller.allowedVideoQualities = self.allowedVideoQualities;
+                _controllerCapture = controller; //MAHIPAL-
                 self.viewControllers = @[controller];
             }
                 break;
@@ -311,6 +331,10 @@
 #pragma mark - IQAssetsPickerControllerDelegate
 - (void)assetsPickerController:(IQAssetsPickerController*)controller didFinishMediaWithInfo:(NSDictionary *)info
 {
+    // add New Line: selectedItems
+    
+    _selectedItems = controller.selectedItems;
+    
     if ([self.delegate respondsToSelector:@selector(mediaPickerController:didFinishMediaWithInfo:)])
     {
         [self.delegate mediaPickerController:self didFinishMediaWithInfo:info];

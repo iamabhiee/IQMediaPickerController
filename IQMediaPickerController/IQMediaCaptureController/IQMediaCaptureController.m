@@ -843,15 +843,73 @@
 }
 
 - (void)selectAction:(UIButton *)sender
-{
-    IQSelectedMediaViewController *controller = [[IQSelectedMediaViewController alloc] initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
-    controller.videoURLs = videoURLs;
-    controller.audioURLs = audioURLs;
-    controller.arrayImagesAttribute = arrayImagesAttribute;
-    controller.mediaCaptureController = self;
-    [self.navigationController pushViewController:controller animated:YES];
+{    //MAHIPAL-11jan
+    if ([self.delegate respondsToSelector:@selector(mediaCaptureController:didFinishMediaWithInfo:)])
+    {
+        NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
+        
+        if ([arrayImagesAttribute count])
+        {
+            [info setObject:arrayImagesAttribute forKey:IQMediaTypeImage];
+        }
+        
+        if ([videoURLs count])
+        {
+            NSMutableArray *videoMedias = [[NSMutableArray alloc] init];
+            
+            for (NSURL *videoURL in videoURLs)
+            {
+                NSDictionary *dict = [NSDictionary dictionaryWithObject:videoURL forKey:IQMediaURL];
+                [videoMedias addObject:dict];
+            }
+            
+            [info setObject:videoMedias forKey:IQMediaTypeVideo];
+        }
+        
+        if ([audioURLs count])
+        {
+            NSMutableArray *audioMedias = [[NSMutableArray alloc] init];
+            
+            for (NSURL *audioURL in audioURLs)
+            {
+                NSDictionary *dict = [NSDictionary dictionaryWithObject:audioURL forKey:IQMediaURL];
+                [audioMedias addObject:dict];
+            }
+            
+            [info setObject:audioMedias forKey:IQMediaTypeAudio];
+        }
+        self.mediaCaptureController = self;
+       [self.mediaCaptureController.delegate mediaCaptureController:self.mediaCaptureController didFinishMediaWithInfo:info];
+    }
+    
+//    IQSelectedMediaViewController *controller = [[IQSelectedMediaViewController alloc] initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+//    controller.videoURLs = videoURLs;
+//    controller.audioURLs = audioURLs;
+//    controller.arrayImagesAttribute = arrayImagesAttribute;
+//    controller.mediaCaptureController = self;
+//    [self.navigationController pushViewController:controller animated:YES];
 }
-
+//add delete Action MAHIPAL-
+-(void)deleteAction:(int)index {
+    
+    if (index < arrayImagesAttribute.count)  {
+        [arrayImagesAttribute removeObjectAtIndex:index];
+      }
+    else if (index <videoURLs.count) {
+        [videoURLs removeObjectAtIndex:index];
+      }
+    
+    NSUInteger count = videoURLs.count + audioURLs.count + arrayImagesAttribute.count;
+    self.buttonSelect.hidden = count == 0;
+    if (count)
+    {
+        [self.buttonSelect setTitle:[NSString stringWithFormat:@"%ld Selected",count] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self.buttonSelect setTitle:[NSString stringWithFormat:@"Select"] forState:UIControlStateNormal];
+    }
+}
 //- (void)deleteAction:(UIButton *)sender
 //{
 //    NSURL *mediaURL = [videoURLs objectAtIndex:self.partitionBar.selectedIndex];
@@ -1132,9 +1190,10 @@
                 
                 NSMutableDictionary *dict = [info mutableCopy];
                 [dict removeObjectForKey:IQMediaType];
-                [dict setObject:[IQFileManager URLForFilePath:nextMediaPath] forKey:IQMediaURL];
                 
-                [arrayImagesAttribute addObject:dict];
+                [dict setObject:nextMediaPath.lastPathComponent forKey:IQMediaFileName]; //MAHIPAL-
+                [dict setObject:[IQFileManager URLForFilePath:nextMediaPath] forKey:IQMediaURL];
+                 [arrayImagesAttribute addObject:dict];
             }
             else if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeAudio])
             {

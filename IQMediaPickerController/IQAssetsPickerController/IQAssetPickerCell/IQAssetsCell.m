@@ -56,7 +56,7 @@
 
         self.checkmarkView = [[IQCheckmarkView alloc] init];
         self.checkmarkView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
-        self.checkmarkView.frame = CGRectMake(self.imageViewAsset.bounds.size.width - 24, self.imageViewAsset.bounds.size.height - 24, 20, 20);
+        self.checkmarkView.frame = CGRectMake(self.imageViewAsset.bounds.size.width - 24, 4, 20, 20);  //MAHIPAL-
         [self.contentView addSubview:self.checkmarkView];
         
         [self initialize];

@@ -31,17 +31,19 @@ typedef NS_ENUM(NSInteger, IQMediaCaptureControllerCaptureMode) {
     IQMediaCaptureControllerCaptureModeAudio,
 };
 
+
 @protocol IQMediaCaptureControllerDelegate;
 
+ 
 @interface IQMediaCaptureController : UIViewController
-
+//@property(nullable, weak) id<IQAs> delegateImageVideo;
 @property(nullable, nonatomic, weak) id <IQMediaCaptureControllerDelegate> delegate;
-
+@property(nonatomic, weak) IQMediaCaptureController *mediaCaptureController;
 @property(nonatomic) NSArray <NSNumber *> * _Nullable mediaTypes;
 @property(nonatomic) IQMediaPickerControllerCameraDevice captureDevice;
 @property(nonatomic) IQMediaPickerControllerCameraFlashMode flashMode;
 @property(nonatomic) NSArray <NSNumber*> * _Nullable allowedVideoQualities;    //Array of IQMediaPickerControllerQualityType
-
+-(void)deleteAction:(int)index; //MAHIPAL-
 @property(nonatomic, readonly) IQMediaCaptureControllerCaptureMode captureMode;
 
 @property (nonatomic) BOOL allowsCapturingMultipleItems; // default is NO.

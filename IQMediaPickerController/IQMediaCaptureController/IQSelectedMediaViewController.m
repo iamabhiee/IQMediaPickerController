@@ -25,6 +25,7 @@
 @import AVFoundation;
 @import AVKit;
 
+
 #import "IQSelectedMediaViewController.h"
 #import "IQMediaCaptureController.h"
 #import "IQSelectedMediaAudioCell.h"
@@ -249,6 +250,8 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
+
 -(void)doneAction:(UIBarButtonItem*)sender
 {
     if ([self.mediaCaptureController.delegate respondsToSelector:@selector(mediaCaptureController:didFinishMediaWithInfo:)])
@@ -289,7 +292,7 @@
         [self.mediaCaptureController.delegate mediaCaptureController:self.mediaCaptureController didFinishMediaWithInfo:info];
     }
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self dismissViewControllerAnimated:YES completion:nil]; MAHIPAL-
 }
 
 -(BOOL)shouldAutorotate
