@@ -55,7 +55,8 @@
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];//MAHIPAL-11jan
     [self.navigationController.navigationBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed: 247.0/255.0 green:148.0/255.0 blue:30.0/255.0 alpha:1.0]]; //MAHIPAL-
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed: 98.0/255.0 green:215.0/255.0 blue:144.0/255.0 alpha:1.0]]; //MAHIPAL-
+    //62D790 //98,215,144
     
      /*********************/
     self.doneBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneAction:)];
