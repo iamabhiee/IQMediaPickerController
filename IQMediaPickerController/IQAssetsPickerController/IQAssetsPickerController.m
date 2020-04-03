@@ -59,7 +59,13 @@
     
     _selectedItems = [[NSMutableArray alloc] init];
     _albumCache = [[NSMutableDictionary alloc] init];
-
+    
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];//MAHIPAL-11jan
+    [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed: 98.0/255.0 green:215.0/255.0 blue:144.0/255.0 alpha:1.0]]; //MAHIPAL-
+    
+    
     //If top level framework
     if(self.collectionList == nil)
     {
@@ -159,7 +165,7 @@
                 
                 [allSections addObject:smartCollections];
             }
-
+            
             {
                 PHFetchResult<PHCollection *> *userCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
                 
@@ -194,7 +200,7 @@
                         }
                     }
                 }
-
+                
                 [allSections addObject:collectionsToKeep];
             }
         }
@@ -203,7 +209,7 @@
             PHFetchResult<PHCollection *> *fetchResult = [PHCollection fetchCollectionsInCollectionList:weakSelf.collectionList options:nil];
             
             NSMutableArray<PHCollection*> *collectionsToKeep = [[NSMutableArray alloc] init];
-
+            
             for (int x = 0; x < fetchResult.count; x ++)
             {
                 PHCollection *collection = fetchResult[x];
@@ -231,7 +237,7 @@
                     [collectionsToKeep addObject:collection];
                 }
             }
-
+            
             [allSections addObject:collectionsToKeep];
         }
         
@@ -269,7 +275,7 @@
         {
             finalText = [finalText stringByAppendingFormat:@" (%lu maximum) ",(unsigned long)self.maximumItemCount];
         }
-
+        
         self.selectedMediaCountItem.title = finalText;
     }
     else
@@ -325,7 +331,7 @@
             return @"My Albums";
         }
     }
-
+    
     return nil;
 }
 
@@ -347,14 +353,14 @@
         
         NSDictionary *titleAttributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:25.0],NSForegroundColorAttributeName:[UIColor darkGrayColor]};
         NSDictionary *messageAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:20.0],NSForegroundColorAttributeName:[UIColor grayColor]};
-
+        
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:@"Empty Folder" attributes:titleAttributes];
         NSAttributedString *attributedMessage = [[NSAttributedString alloc] initWithString:@"\n\nThis folder contains no albums" attributes:messageAttributes];
         NSMutableAttributedString *finalMessage = [[NSMutableAttributedString alloc] init];
         [finalMessage appendAttributedString:attributedTitle];
         [finalMessage appendAttributedString:attributedMessage];
         label.attributedText = finalMessage;
-
+        
         CGSize labelNewSize = [label sizeThatFits:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)];
         
         label.frame = CGRectMake(0, 0, label.frame.size.width, labelNewSize.height);
@@ -378,22 +384,22 @@
 {
     IQAssetsAlbumViewCell *albumCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IQAssetsAlbumViewCell class]) forIndexPath:indexPath];
     [albumCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-
+    
     PHCollection * collection = self.sections[indexPath.section][indexPath.row];
-
+    
     NSMutableDictionary *cacheDict = _albumCache[collection.localIdentifier];
     albumCell.labelTitle.text = collection.localizedTitle;
     albumCell.imageViewAlbum.image = cacheDict[@"image"];
     albumCell.labelSubTitle.text = [NSString stringWithFormat:@"%@",cacheDict[@"count"]?:@""];
     
     albumCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
+    
     if (albumCell.imageViewAlbum.image == nil)
     {
         __weak typeof(self) weakSelf = self;
-
+        
         __weak IQAssetsAlbumViewCell * weakCell = albumCell;
-
+        
         CGRect imageViewFrame = albumCell.imageViewAlbum.frame;
         
         //PHAssetCollection
@@ -422,9 +428,9 @@
                 {
                     options.fetchLimit = 1;
                 }
-
+                
                 options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
-
+                
                 PHFetchResult * fetchResult = [PHAsset fetchAssetsInAssetCollection:assetCollection
                                                                             options:options];
                 
@@ -438,7 +444,7 @@
                     CGSize targetSize = CGSizeMake(imageViewFrame.size.width*scale, imageViewFrame.size.height*scale);
                     
                     [[PHImageManager defaultManager] requestImageForAsset:[fetchResult lastObject] targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-
+                        
                         NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
                             
                             cacheDict[@"image"] = result;
@@ -476,13 +482,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
     PHCollection *collection = self.sections[indexPath.section][indexPath.row];
     
     if ([collection canContainAssets])
     {
         PHAssetCollection *assetCollection = (PHAssetCollection*)collection;
-
+        
         IQAlbumAssetsViewController *assetsVC = [[IQAlbumAssetsViewController alloc] initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
         assetsVC.mediaTypes = self.mediaTypes;
         assetsVC.collection =  assetCollection;
@@ -492,7 +498,7 @@
     else if ([collection canContainCollections])
     {
         PHCollectionList *collectionList = (PHCollectionList*)collection;
-
+        
         IQAssetsPickerController *assetsVC = [[IQAssetsPickerController alloc] init];
         assetsVC.collectionList = collectionList;
         assetsVC.delegate = self.delegate;
