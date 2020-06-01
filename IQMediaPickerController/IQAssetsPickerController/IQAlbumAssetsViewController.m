@@ -81,9 +81,11 @@
     self.toolbarItems = @[flexItem,self.selectedMediaCountItem,flexItem];
     
     if (@available(iOS 11.0, *)) {
-        self.collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        //self.collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        self.collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAlways;
     }
-    self.collectionView.contentInset = self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
+    //self.collectionView.contentInset = self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.collectionView.contentInset = self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.alwaysBounceVertical = YES;
 
